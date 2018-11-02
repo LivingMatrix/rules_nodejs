@@ -27,7 +27,7 @@ load("//internal/common:os_name.bzl", "os_name")
 def _create_build_file(repository_ctx, node):
   if repository_ctx.attr.manual_build_file_contents:
     repository_ctx.file("manual_build_file_contents", repository_ctx.attr.manual_build_file_contents)
-  result = repository_ctx.execute([node, "generate_build_file.js"])
+  result = repository_ctx.execute([node, "generate_build_file.js", ",".join(repository_ctx.attr.whitelisted_file_extensions)])
   if result.return_code:
     fail("node failed: \nSTDOUT:\n%s\nSTDERR:\n%s" % (result.stdout, result.stderr))
 
@@ -125,6 +125,10 @@ npm_install = repository_rule(
             doc = "Don't install devDependencies",
         ),
         "data": attr.label_list(),
+        "whitelisted_file_extensions": attr.string_list(
+            doc = """List of whitelisted file extensions""",
+            default = [],
+        ),
         "manual_build_file_contents": attr.string(
             doc = """Experimental attribute that can be used to override
             the generated BUILD.bazel file and set its contents manually.
@@ -208,6 +212,10 @@ yarn_install = repository_rule(
             doc = "Don't install devDependencies",
         ),
         "data": attr.label_list(),
+        "whitelisted_file_extensions": attr.string_list(
+            doc = """List of whitelisted file extensions""",
+            default = [],
+        ),
         "manual_build_file_contents": attr.string(
             doc = """Experimental attribute that can be used to override
             the generated BUILD.bazel file and set its contents manually.
