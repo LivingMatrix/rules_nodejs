@@ -359,7 +359,7 @@ function filterFilesForFilegroup(files, exts = []) {
               // from the set a–z, A–Z, 0–9, and the punctuation symbols _/.+-=,@~.
               // Files with spaces are also not allowed in Bazel runfiles
               // See https://github.com/bazelbuild/bazel/issues/4327
-              .filter(f => !f.match(/[^a-zA-Z0-9\_\/\.\+\-\=\,\@\~]/))
+              .filter(f => !f.match(/[^a-zA-Z0-9\_\/\.\+\-\=\,\@\~\$]/))
               // Don't include bazel BUILD and WORKSPACE files in a filegroup
               .filter(f => path.basename(f) !== 'BUILD')
               .filter(f => path.basename(f) !== 'BUILD.bazel')
