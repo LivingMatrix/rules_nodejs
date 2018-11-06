@@ -88,10 +88,12 @@ yarn_install(
     name = "fine_grained_deps_yarn",
     package_json = "//internal/e2e/fine_grained_deps:package.json",
     yarn_lock = "//internal/e2e/fine_grained_deps:yarn.lock",
+    whitelisted_file_extensions = ["", ".js", ".d.ts", ".json", ".proto"],
 )
 
 npm_install(
     name = "fine_grained_deps_npm",
     package_json = "//internal/e2e/fine_grained_deps:package.json",
     package_lock_json = "//internal/e2e/fine_grained_deps:package-lock.json",
+    whitelisted_file_extensions = ["", ".js", ".d.ts", ".json", ".proto"],
 )
