@@ -1,0 +1,71 @@
+load("@build_bazel_rules_nodejs//:defs.bzl", "nodejs_binary")
+load("@build_bazel_rules_nodejs//:defs.bzl", "babel_library")
+
+babel_library(
+    name = "msg",
+    srcs = ["msg.js"],
+    babel = "@devserver_example_yarn_install//@bazel/babel/bin:babel",
+)
+
+babel_library(
+    name = "lib",
+    srcs = ["lib.js"],
+    babel = "@devserver_example_yarn_install//@bazel/babel/bin:babel",
+    deps = [
+        ":msg",
+    ],
+)
+
+babel_library(
+    name = "index_lib",
+    srcs = ["index.js"],
+    babel = "@devserver_example_yarn_install//@bazel/babel/bin:babel",
+    deps = [
+        ":lib",
+    ],
+)
+
+babel_library(
+    name = "someLibrary",
+    srcs = [
+        "someLibrary/index.js",
+        "someLibrary/internalFile.js",
+    ],
+    babel = "@devserver_example_yarn_install//@bazel/babel/bin:babel",
+    module_name = "someLibrary",
+    module_root = "someLibrary",
+)
+
+nodejs_binary(
+    name = "flowBabel",
+    data = [
+        "@nodejs_binary_example_yarn_install//@bazel/babel",
+        "@nodejs_binary_example_yarn_install//babel-plugin-transform-es2015-modules-commonjs",
+        "@nodejs_binary_example_yarn_install//babel-plugin-transform-flow-strip-types",
+    ],
+    entry_point = "@bazel/babel/babel.js",
+    install_source_map_support = False,
+)
+
+babel_library(
+    name = "flowLibrary",
+    srcs = [
+        "flowLibrary/index.js",
+        "flowLibrary/internalFile.js",
+    ],
+    babel = ":flowBabel",
+    babelrc = "flowLibrary/flow.babelrc",
+    module_name = "flowLibrary",
+    module_root = "flowLibrary",
+)
+
+nodejs_binary(
+    name = "index",
+    data = [
+        ":flowLibrary",
+        ":index_lib",
+        ":someLibrary",
+    ],
+    entry_point = "nodejs_binary_example/index.js",
+    install_source_map_support = False,
+)

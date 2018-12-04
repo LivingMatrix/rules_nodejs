@@ -1,0 +1,15 @@
+workspace(name = "nodejs_binary_example")
+
+local_repository(
+    name = "build_bazel_rules_nodejs",
+    path = "../..",
+)
+load("@build_bazel_rules_nodejs//:package.bzl", "check_rules_nodejs_version", "rules_nodejs_dependencies")
+rules_nodejs_dependencies()
+
+load("@build_bazel_rules_nodejs//:defs.bzl", "node_repositories", "yarn_install")
+
+node_repositories(package_json = ["//:package.json"])
+
+load("//:setup_workspace.bzl", "nodejs_binary_example_setup_workspace")
+nodejs_binary_example_setup_workspace()

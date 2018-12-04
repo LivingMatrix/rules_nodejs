@@ -103,6 +103,7 @@ jobs:
       - run: bazel run //internal/node/test:has_deps
       - run: bazel run //internal/node/test:has_deps_hybrid
       - run: bazel run @fine_grained_deps_yarn//typescript/bin:tsc
+      - run: bazel run @nodejs_binary_example//:index
 
       - save_cache:
           key: *cache_key
@@ -131,6 +132,8 @@ jobs:
       # https://github.com/bazelbuild/bazel/issues/6481 is resolved
       - run: bazel test @program_example//...
       - run: bazel test @packages_example//...
+      - run: bazel build @devserver_example//...
+      - run: bazel build @nodejs_binary_example//...
 
   # This job cannot run on BuildKite (BazelCI) because it requires changing
   # directories to test inside nested workspaces.
