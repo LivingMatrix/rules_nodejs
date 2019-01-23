@@ -59,6 +59,6 @@ def nodejs_jest_test(
         name = name,
         data = all_data,
         entry_point = entry_point,
-        templated_args = [npm_repo_workspace_name, native.package_name()],
+        templated_args = [npm_repo_workspace_name, native.package_name() or '.'],
         **kwargs
     )
