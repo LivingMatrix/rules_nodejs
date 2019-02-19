@@ -23,6 +23,7 @@ def nodejs_jest_test(
     srcs = [],
     data = [],
     deps = [],
+    tests_root = "tests",
     **kwargs):
     """Runs test with a jest.
     
@@ -59,6 +60,6 @@ def nodejs_jest_test(
         name = name,
         data = all_data,
         entry_point = entry_point,
-        templated_args = [npm_repo_workspace_name, native.package_name() or '.'],
+        templated_args = [npm_repo_workspace_name, native.package_name() or '.', tests_root],
         **kwargs
     )

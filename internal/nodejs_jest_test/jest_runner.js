@@ -6,6 +6,7 @@ process = require('process')
 // [0], [1] is node executable and script path
 npm_ws_name = process.argv[2]
 package_name = process.argv[3]
+tests_root = process.argv[4] || "tests"
 
 var packageJson = {
 	jest: {
@@ -26,7 +27,7 @@ console.log('Writing package.json for jest')
 fs.writeFileSync('package.json', JSON.stringify(packageJson));
 
 console.log('Copying tests over temp directory')
-fs.copySync('tests', 'jest', {
+fs.copySync(tests_root, 'jest', {
 	dereference: true,
 });
 
